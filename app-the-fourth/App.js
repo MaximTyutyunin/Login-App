@@ -1,29 +1,31 @@
+// App.js
 import React from "react";
+import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
-import { View, Text, StyleSheet } from "react-native";
 
 import LoginForm from "./Components/LoginForm";
-import MainApp from "./Components/MainApp"; // Create a new component for the main app screen
+import MainApp from "./Components/MainApp";
+import store from "./redux/store"; // Import the Redux store
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <PaperProvider>
-      <View style={styles.container}>
-        <Text>Welcome to the main app!</Text>
-      </View>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={LoginForm} />
-          <Stack.Screen name="MainApp" component={MainApp} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <Provider store={store}>  {/* Wrap the app with Redux Provider */}
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={LoginForm} />
+            <Stack.Screen name="MainApp" component={MainApp} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
